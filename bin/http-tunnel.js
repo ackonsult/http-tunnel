@@ -44,13 +44,6 @@ process.on('uncaughtException', function(error) {
 });
 
 function copyToClipboard(str, cb) {
-  var spawn = require('child_process').spawn
-    , pbcopy = spawn('pbcopy');
-  pbcopy.on('exit', function (code) {
-    if (cb) cb(code == 0);
-  });
-  pbcopy.stdin.write(str + '\n');
-  pbcopy.stdin.end();
 }
 
 function bindWithServer(host, callback) {
