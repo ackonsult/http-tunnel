@@ -60,7 +60,7 @@ function bindWithServer(host, callback) {
       'Connection': 'Upgrade',
       'Upgrade': 'http-tunnel'
     },
-    rejectUnauthorized: true
+    rejectUnauthorized: false //SET TO TRUE IF SERVER HAS VALID CERT
   };
   if (program.id) options.headers['preferredid'] = program.id;
   if (program.pass) options.headers['password'] = program.pass;
