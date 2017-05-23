@@ -56,7 +56,7 @@ function getRandomHostId() {
 
 function onHttpRequest(socket, req, res) {
   var handler = null;
-  var host = req.headers['host'];
+  var host = req.headers['host'].replace(":80", ""); //ACMN
   if (host) handler = handlers[host];
   if (handler) pipeHttpRequestToHandler(handler, req, socket, host);
   else {
@@ -127,7 +127,7 @@ function pipeHttpRequestToHandler(handler, req, clientSocket, host) {
   }
 
   // log request, if requested
-  if (program.log) requestLogger.info(req.method, { url: req.url, host: host, remote: forwardedFor });
+  requestLogger.info(req.method, { url: req.url, host: host, remote: forwardedFor });
 
   function sendRequestToHandler(handlerChannel) {
     // reuse channel
@@ -174,7 +174,7 @@ function pipeHttpRequestToHandler(handler, req, clientSocket, host) {
 
 var handlers = {};
 var server = net.createServer(processIncomingRequest);
+server.timeout = 0;
 server.listen(program.port, program.ip, function() {
   logger.info('Server listening', { ip: program.ip, port: program.port });
 });
-
